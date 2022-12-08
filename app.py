@@ -41,8 +41,8 @@ headers = {'content-type': 'application/json'}
 #     if st.button("Prédiction"):
 #         send_sample(payload, url, headers)
 
-usermail = os.environ.get('USERMAIL')
-password = os.environ.get('PWD')
+usermail = os.getenv('USERMAIL')
+password = os.getenv('PWD')
 
 # Initialization
 if "logged" not in st.session_state:
