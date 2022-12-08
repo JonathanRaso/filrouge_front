@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pandas as pd
 import requests
@@ -26,17 +27,54 @@ def send_sample(payload, server_url, headers):
 ### Application ###
 st.title("RC28 Prédiction")
 
-st.text("Bienvenue, vous allez pouvoir connaitre la RC28 en un clic !")
-
 ### file upload
-uploaded_file = st.file_uploader("Téléverser un fichier csv")
+# uploaded_file = st.file_uploader("Téléverser un fichier csv")
 
 # request params
 url = 'https://filrouge-backend.onrender.com/predict'
 headers = {'content-type': 'application/json'}
 
-if uploaded_file is not None:
-    payload = load_file(uploaded_file)
 
-    if st.button("Prédiction"):
-        send_sample(payload, url, headers)
+# if uploaded_file is not None:
+#     payload = load_file(uploaded_file)
+
+#     if st.button("Prédiction"):
+#         send_sample(payload, url, headers)
+
+usermail = os.environ.get('USERMAIL')
+password = os.environ.get('PWD')
+
+# Initialization
+if "logged" not in st.session_state:
+    st.session_state["logged"] = False
+
+
+# login form
+if st.session_state["logged"] == False:
+
+    placeholder = st.empty()
+
+    with placeholder.form("login"):
+        st.markdown("#### Bonjour, veuillez renseigner vos identifiants")
+        user_email = st.text_input(label="Email", placeholder="votremail@exemple.com")
+        user_password = st.text_input(label="Mot de passe", placeholder="Enter votre mot de passe", type="password")
+        login_button = st.form_submit_button("Login")
+
+        if ((login_button) and (user_email == usermail) and (user_password == password)):
+            st.session_state["logged"] = True
+            placeholder.empty()
+        elif ((login_button) and ((user_email != usermail) or (user_password != password))):
+            st.error('Identifiants incorrects, veuillez réessayer', icon="⚠️")
+else:
+    if st.button("Déconnexion"):
+        del st.session_state["logged"]
+            
+# loading file and sending sample for prediction
+if st.session_state["logged"]:
+    st.text("Bienvenue, vous allez pouvoir connaitre la résistance de votre béton en un clic !")
+    uploaded_file = st.file_uploader("Téléverser un fichier csv")
+    if uploaded_file is not None:
+        payload = load_file(uploaded_file)
+
+        if st.button("Prédiction"):
+            send_sample(payload, url, headers)
