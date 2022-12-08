@@ -31,14 +31,12 @@ st.text("Bienvenue, vous allez pouvoir connaitre la RC28 en un clic !")
 ### file upload
 uploaded_file = st.file_uploader("Téléverser un fichier csv")
 
-if uploaded_file is not None:
-    payload = load_file(uploaded_file)
-
-
-### get prediction
-# local_url = 'http://127.0.0.1:8000/predict'
+# request params
 url = 'https://filrouge-backend.onrender.com/predict'
 headers = {'content-type': 'application/json'}
 
-if st.button("send"):
-    send_sample(payload, url, headers)
+if uploaded_file is not None:
+    payload = load_file(uploaded_file)
+
+    if st.button("Prédiction"):
+        send_sample(payload, url, headers)
