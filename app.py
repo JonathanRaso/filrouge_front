@@ -34,70 +34,75 @@ def change_is_logged_session():
 st.title("Test")
 st.write(os.environ['PWD'])
 
-# # session state
-# if "is_logged" not in st.session_state:
-#     st.session_state["is_logged"] = False
+# session state
+if "is_logged" not in st.session_state:
+    st.session_state["is_logged"] = False
 
-# ### Application ###
-# st.title("RC28 Prédiction")
+### Application ###
+st.title("RC28 Prédiction")
 
-# # request params
+# request params
 # url = 'http://127.0.0.1:8000'
-# # url = 'https://filrouge-backend.onrender.com'
-# headers = {'content-type': 'application/json'}
+url = 'https://filrouge-backend.onrender.com'
+headers = {'content-type': 'application/json'}
 
 
-# usermail = "test"
-# password = "root"
+# login form
+if st.session_state["is_logged"] == False:
+
+    placeholder = st.empty()
+
+    with placeholder.form("login"):
+        st.markdown("#### Bonjour, veuillez renseigner vos identifiants")
+        user_email = st.text_input(label="Email", placeholder="votremail@exemple.com")
+        user_password = st.text_input(label="Mot de passe", placeholder="Enter votre mot de passe", type="password")
+        login_button = st.form_submit_button("Login")
+
+        if ((login_button) and (user_email == os.environ['EMAIL']) and (user_password == os.environ['PWD'])):
+            change_is_logged_session()
+            placeholder.empty()
+        elif ((login_button) and ((user_email != usermail) or (user_password != password))):
+            st.error('Identifiants incorrects, veuillez réessayer', icon="⚠️")
 
 
-# # login form
-# if st.session_state["is_logged"] == False:
 
-#     placeholder = st.empty()
+        # if login_button:
+        #     access_granted = send_login(user_email, user_password)
+        #     if access_granted != "Connexion autorisée":
+        #         print(f"retour api = pas {access_granted}")
+        #         st.session_state["is_logged"]
+        #         change_is_logged_session()
+        #         st.session_state["is_logged"]
+        #         placeholder.empty()
+        #     else:
+        #         st.error('Identifiants incorrects, veuillez réessayer', icon="⚠️")
 
-#     with placeholder.form("login"):
-#         st.markdown("#### Bonjour, veuillez renseigner vos identifiants")
-#         user_email = st.text_input(label="Email", placeholder="votremail@exemple.com")
-#         user_password = st.text_input(label="Mot de passe", placeholder="Enter votre mot de passe", type="password")
-#         login_button = st.form_submit_button("Login")
-#         if login_button:
-#             access_granted = send_login(user_email, user_password)
-#             if access_granted != "Connexion autorisée":
-#                 print(f"retour api = pas {access_granted}")
-#                 st.session_state["is_logged"]
-#                 change_is_logged_session()
-#                 st.session_state["is_logged"]
-#                 placeholder.empty()
-#             else:
-#                 st.error('Identifiants incorrects, veuillez réessayer', icon="⚠️")
+            # if access_granted == "Connexion autorisée":
+            #     change_is_logged_session()
+            #     placeholder.empty()
+            # else:
+            #     st.error('Identifiants incorrects, veuillez réessayer', icon="⚠️")
 
-#             # if access_granted == "Connexion autorisée":
-#             #     change_is_logged_session()
-#             #     placeholder.empty()
-#             # else:
-#             #     st.error('Identifiants incorrects, veuillez réessayer', icon="⚠️")
-
-#         # if ((login_button) and (user_email == usermail) and (user_password == password)):
-#         #     change_is_logged_session()
-#         #     placeholder.empty()
-#         # elif ((login_button) and ((user_email != usermail) or (user_password != password))):
-#         #     st.error('Identifiants incorrects, veuillez réessayer', icon="⚠️")
+        # if ((login_button) and (user_email == usermail) and (user_password == password)):
+        #     change_is_logged_session()
+        #     placeholder.empty()
+        # elif ((login_button) and ((user_email != usermail) or (user_password != password))):
+        #     st.error('Identifiants incorrects, veuillez réessayer', icon="⚠️")
 
 
-# if st.session_state["is_logged"] == True:
-#     st.write(st.session_state["is_logged"])
-#     # st.write(user_email, user_password)
-#     # print(user_email, user_password)
-#     st.button("Déconnexion", on_click=change_is_logged_session)
+if st.session_state["is_logged"] == True:
+    st.write(st.session_state["is_logged"])
+    # st.write(user_email, user_password)
+    # print(user_email, user_password)
+    st.button("Déconnexion", on_click=change_is_logged_session)
     
-#     # loading file and sending sample for prediction
-#     st.text("Bienvenue, vous allez pouvoir connaitre la résistance de votre béton en un clic !")
-#     uploaded_file = st.file_uploader("Téléverser un fichier csv")
-#     if uploaded_file is not None:
-#         payload = load_file(uploaded_file)
-#         if st.button("Prédiction"):
-#             send_sample(payload, url, headers)
+    # loading file and sending sample for prediction
+    st.text("Bienvenue, vous allez pouvoir connaitre la résistance de votre béton en un clic !")
+    uploaded_file = st.file_uploader("Téléverser un fichier csv")
+    if uploaded_file is not None:
+        payload = load_file(uploaded_file)
+        if st.button("Prédiction"):
+            send_sample(payload, url, headers)
 
 
 
