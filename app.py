@@ -61,7 +61,7 @@ if st.session_state["is_logged"] == False:
         if ((login_button) and (user_email == os.environ['EMAIL']) and (user_password == os.environ['PWD'])):
             change_is_logged_session()
             placeholder.empty()
-        elif ((login_button) and ((user_email != usermail) or (user_password != password))):
+        elif ((login_button) and ((user_email != os.environ['EMAIL']) or (user_password != os.environ['PWD']))):
             st.error('Identifiants incorrects, veuillez réessayer', icon="⚠️")
 
 
