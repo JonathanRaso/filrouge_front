@@ -32,7 +32,7 @@ def change_is_logged_session():
 
 
 st.title("Test")
-st.write(os.environ('PWD'))
+st.write(os.environ['PWD'])
 
 # # session state
 # if "is_logged" not in st.session_state:
