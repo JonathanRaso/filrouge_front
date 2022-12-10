@@ -33,6 +33,14 @@ def change_is_logged_session():
 
 st.title("Test")
 st.write(os.environ['PWD'])
+st.write(os.environ['EMAIL'])
+st.text(os.environ['PWD'])
+st.text(os.environ['EMAIL'])
+st.write(os.getenv(PWD))
+st.write(os.getenv(EMAIL))
+st.text(os.getenv(PWD))
+st.text(os.getenv(EMAIL))
+
 
 # session state
 if "is_logged" not in st.session_state:
@@ -64,6 +72,23 @@ if st.session_state["is_logged"] == False:
         elif ((login_button) and ((user_email != os.environ['EMAIL']) or (user_password != os.environ['PWD']))):
             st.error('Identifiants incorrects, veuillez réessayer', icon="⚠️")
 
+if st.session_state["is_logged"] == True:
+    st.write(st.session_state["is_logged"])
+    # st.write(user_email, user_password)
+    # print(user_email, user_password)
+    st.button("Déconnexion", on_click=change_is_logged_session)
+    
+    # loading file and sending sample for prediction
+    st.text("Bienvenue, vous allez pouvoir connaitre la résistance de votre béton en un clic !")
+    uploaded_file = st.file_uploader("Téléverser un fichier csv")
+    if uploaded_file is not None:
+        payload = load_file(uploaded_file)
+        if st.button("Prédiction"):
+            send_sample(payload, url, headers)
+
+
+
+
 
 
         # if login_button:
@@ -88,35 +113,6 @@ if st.session_state["is_logged"] == False:
         #     placeholder.empty()
         # elif ((login_button) and ((user_email != usermail) or (user_password != password))):
         #     st.error('Identifiants incorrects, veuillez réessayer', icon="⚠️")
-
-
-if st.session_state["is_logged"] == True:
-    st.write(st.session_state["is_logged"])
-    # st.write(user_email, user_password)
-    # print(user_email, user_password)
-    st.button("Déconnexion", on_click=change_is_logged_session)
-    
-    # loading file and sending sample for prediction
-    st.text("Bienvenue, vous allez pouvoir connaitre la résistance de votre béton en un clic !")
-    uploaded_file = st.file_uploader("Téléverser un fichier csv")
-    if uploaded_file is not None:
-        payload = load_file(uploaded_file)
-        if st.button("Prédiction"):
-            send_sample(payload, url, headers)
-
-
-
-
-
-
-# if st.session_state["logged"]:
-#     st.text("Bienvenue, vous allez pouvoir connaitre la résistance de votre béton en un clic !")
-#     uploaded_file = st.file_uploader("Téléverser un fichier csv")
-#     if uploaded_file is not None:
-#         payload = load_file(uploaded_file)
-
-#         if st.button("Prédiction"):
-#             send_sample(payload, url, headers)
 
 
 
