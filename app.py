@@ -34,7 +34,6 @@ if "is_logged" not in st.session_state:
 st.title("RC28 Prédiction")
 
 # request params
-# url = 'https://filrouge-backend.onrender.com'
 url = os.environ['FASTAPI_URL']
 headers = {'content-type': 'application/json'}
 
