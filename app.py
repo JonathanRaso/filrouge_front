@@ -32,13 +32,13 @@ def change_is_logged_session():
 
 
 st.title("Test")
-st.write(os.environ['PWD'])
+st.write(os.environ['PASSWORD'])
 st.write(os.environ['EMAIL'])
-st.text(os.environ['PWD'])
+st.text(os.environ['PASSWORD'])
 st.text(os.environ['EMAIL'])
-st.write(os.getenv(PWD))
+st.write(os.getenv(PASSWORD))
 st.write(os.getenv(EMAIL))
-st.text(os.getenv(PWD))
+st.text(os.getenv(PASSWORD))
 st.text(os.getenv(EMAIL))
 
 
